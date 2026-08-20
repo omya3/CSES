@@ -2,6 +2,14 @@
 #include <vector>
 #include <queue> // Required for std::deque
 
+// Recognition: Maximum/minimum in every fixed-size window
+// Invariant: Indices increase; values decrease for maximum
+// Front removal: Expired index
+// Back removal: Dominated value
+// Complexity: O(n) time, O(k) space
+// Problem: Sliding Window Maximum
+// Revision: August 21 and August 25
+
 using namespace std;
 
 int main()
@@ -55,4 +63,67 @@ int main()
 
     cout << ans << "\n";
     return 0;
+}
+
+// following is code for sliding window max
+
+// arr = [1, 3, -1, -3, 5], k = 3
+// o/p = [3, 3, 5]
+
+vector<int> sliding_window_max(vector<int> arr, int k)
+{
+
+    vector<int> output;
+    int n = arr.size();
+    dequeue<int> dq;
+    for (int i = 0; i < n; i++)
+    {
+
+        while (!dq.empty() and dq.back().first <= arr[i])
+        {
+            dq.pop_back();
+        }
+
+        dq.push({arr[i], i});
+
+        if (dq.front().second <= i - k)
+        {
+            dq.pop_front();
+        }
+
+        if (i >= k - 1)
+        {
+            output.push_back(dq.front().first);
+        }
+    }
+    return output;
+}
+
+/// template sl-window max
+
+vector<int> slidingWindowMaximum(const vector<int> &arr, int k)
+{
+    int n = arr.size();
+    deque<pair<int, int>> dq;
+    vector<int> output;
+
+    for (int i = 0; i < n; i++)
+    {
+        while (!dq.empty() and dq.back().first <= arr[i])
+        {
+            dq.pop_back();
+        }
+
+        dq.push_back({arr[i], i});
+
+        if (dq.front().second <= i - k)
+        {
+            dq.pop_front();
+        }
+
+        if (i >= k - 1)
+        {
+            output.push_back(dq.front().first);
+        }
+    }
 }
