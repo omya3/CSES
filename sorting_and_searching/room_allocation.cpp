@@ -22,7 +22,7 @@ int main()
     cin >> n;
 
     vector<Customer> schedule(n); // Fixed: Initialized with size 'n'
-    multiset<pair<int, int>> mt; // dep and room no.
+    multiset<pair<int, int>> mt;  // dep and room no.
 
     for (int i = 0; i < n; i++)
     {
@@ -31,7 +31,7 @@ int main()
         cin >> schedule[i].departure;
         schedule[i].original_index = i;
     }
-    
+
     auto cmp = [](const Customer &a, const Customer &b)
     {
         if (a.arrival == b.arrival)
@@ -50,8 +50,8 @@ int main()
         if (!mt.empty() && mt.begin()->first < sc.arrival)
         {
             int reused_room = mt.begin()->second;
-            // Fixed: Safely erasing only the first element iterator 
-            mt.erase(mt.begin()); 
+            // Fixed: Safely erasing only the first element iterator
+            mt.erase(mt.begin());
 
             room_list[sc.original_index] = reused_room;
             mt.insert({sc.departure, reused_room});
